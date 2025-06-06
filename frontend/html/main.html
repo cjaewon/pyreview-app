@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Py Review App Login - 회원가입</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+  <header class="navbar w-7xl pl-4 pr-4 pt-2 pb-2 m-auto bg-base-100">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl">Py Review App</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-1">
+        <li><a>로그아웃</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="w-7xl m-auto flex justify-center items-center">
+    <div class="w-1/2 h-screen p-8">
+      <textarea placeholder="문제를 입력해주세요." class="textarea textarea-lg w-full h-[256px] mb-4 resize-none border-2 border-black">
+      </textarea>
+      <textarea placeholder="코드를 입력해주세요." class="textarea textarea-lg w-full h-[768px] resize-none border-2 border-black">
+      </textarea>
+    </div>
+    <div class="w-1/2 h-screen p-8">
+      <div>
+        <h1 class="text-xl font-semibold">💻 코드 리뷰</h1>
+        <div class="border-2 border-dashed w-full h-[256px] mt-4">
+
+        </div>
+      </div>
+      <div class="mt-4">
+        <h1 class="text-xl font-semibold">🛠️ 린터</h1>
+        <div class="border-2 border-dashed w-full h-[256px] mt-4">
+
+        </div>
+      </div>
+      <div class="mt-4">
+        <fieldset class="fieldset rounded-sm w-full border-2 border-black p-4 text-lg">
+          <legend class="fieldset-legend">실행 옵션</legend>
+            <label class="label">
+            <input type="checkbox" checked="checked" class="checkbox" />
+            ruff linter
+          </label>
+          <label class="label">
+            <input type="checkbox" checked="checked" class="checkbox" />
+            ruff formater
+          </label>
+          <label class="label">
+            <input type="checkbox" checked="checked" class="checkbox" />
+            ai code review
+          </label>
+  
+          <button class="btn btn-neutral mt-4">실행하기</button>
+        </fieldset>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
