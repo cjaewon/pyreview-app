@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Py Review App Login - 회원가입</title>
+  <title>Py Review App Login - 메인</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
@@ -20,21 +20,24 @@
   </header>
   <main class="w-7xl m-auto flex justify-center items-center">
     <div class="w-1/2 h-screen p-8">
-      <textarea placeholder="문제를 입력해주세요." class="textarea textarea-lg w-full h-[256px] mb-4 resize-none border-2 border-black">
+      <textarea id="problem" placeholder="문제를 입력해주세요." class="textarea textarea-lg w-full h-[256px] mb-4 resize-none border-2 border-black">
       </textarea>
-      <textarea placeholder="코드를 입력해주세요." class="textarea textarea-lg w-full h-[768px] resize-none border-2 border-black">
-      </textarea>
+      <div class="indicator w-full">
+        <span id="formater-indicator" class="indicator-item badge badge-neutral indicator-center hidden">코드가 포맷팅 되었어요</span>
+        <textarea id="code" de placeholder="코드를 입력해주세요." class="textarea textarea-lg w-full h-[800px] resize-none border-2 border-black">
+        </textarea>
+      </div>
     </div>
     <div class="w-1/2 h-screen p-8">
       <div>
         <h1 class="text-xl font-semibold">💻 코드 리뷰</h1>
-        <div class="border-2 border-dashed w-full h-[256px] mt-4">
+        <div id="review-ai-result" class="border-2 border-dashed w-full h-[512px] mt-4 overflow-auto p-4">
 
         </div>
       </div>
       <div class="mt-4">
         <h1 class="text-xl font-semibold">🛠️ 린터</h1>
-        <div class="border-2 border-dashed w-full h-[256px] mt-4">
+        <div id="linter-result" class="border-2 border-dashed w-full h-[256px] mt-4 overflow-auto p-4">
 
         </div>
       </div>
@@ -42,22 +45,65 @@
         <fieldset class="fieldset rounded-sm w-full border-2 border-black p-4 text-lg">
           <legend class="fieldset-legend">실행 옵션</legend>
             <label class="label">
-            <input type="checkbox" checked="checked" class="checkbox" />
+            <input type="checkbox" checked="checked" class="checkbox" disabled />
             ruff linter
           </label>
           <label class="label">
-            <input type="checkbox" checked="checked" class="checkbox" />
+            <input type="checkbox" checked="checked" class="checkbox" disabled />
             ruff formater
           </label>
           <label class="label">
-            <input type="checkbox" checked="checked" class="checkbox" />
+            <input type="checkbox" checked="checked" class="checkbox" disabled />
             ai code review
           </label>
-  
-          <button class="btn btn-neutral mt-4">실행하기</button>
+          <p id="loader" class="mt-2 hidden"><span class="loading loading-dots loading-sm mr-2"></span>코드 리뷰 중 입니다.</p>
+          <button onclick="review()" class="btn btn-neutral mt-2">실행하기</button>
         </fieldset>
       </div>
     </div>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    async function review() {
+      document.getElementById("loader").classList.remove("hidden");
+      document.getElementById("formater-indicator").classList.add("hidden");
+
+      const sleep = delay => new Promise(resolve => setTimeout(resolve, delay));
+      await sleep(3000);
+      let problem_text = document.getElementById("problem").value;
+      const code = document.getElementById("code").value;
+      
+
+      if (problem_text.trim() === "") {
+        problem_text = null;
+      }
+
+      const data = {
+        problem_text,
+        code,
+      };
+
+      try {
+        const response = await fetch("/api/pycode-review", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        document.getElementById("review-ai-result").innerHTML = marked.parse(result["review_ai_result"]);
+        document.getElementById("linter-result").innerHTML = result["linter_result"][0];
+        document.getElementById("code").value = result["formatter_result"][0]
+      } catch (e) {
+        console.error(e)
+      }
+
+      document.getElementById("loader").classList.add("hidden");
+      document.getElementById("formater-indicator").classList.remove("hidden");
+    }
+  </script>
 </body>
 </html>
