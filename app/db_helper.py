@@ -14,18 +14,30 @@ import datetime
 from pydantic import BaseModel, Field
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
-
+db = TinyDB("db.json")
 users_table = db.table("users")
-logs_table = db.table("users")
+
+
+def kst_now():
+  now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)
+
+  return now.timestamp()
+
+
+class Log(BaseModel):
+  problem_text: str | None
+  code: str
+  created_at: float = Field(default_factory=kst_now)
+
 
 class User(BaseModel):
-  username: str
+  username: str = Field(max_length=16)
   hashed_password: str
   is_vertified: bool = False
-  created_at: datetime.datetime = Field(
-    default_factory=lambda: datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)
-  )
+  created_at: float = Field(default_factory=kst_now)
+
+  # github.com/pydantic/pydantic/blob/main/docs/concepts/fields.md#mutable-default-values
+  logs: list[Log] = []
 
   @staticmethod
   def hash_password(password: str) -> str:
@@ -59,15 +71,9 @@ class User(BaseModel):
 
     return hmac.compare_digest(hashed_checking_password, hashed_password_bytes)
 
-class Log(BaseModel):
-  problem_text: str
-  code: str
-  created_at: datetime.datetime = Field(
-    default_factory=lambda: datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)
-  )
-  fk_username: str
 
-def create_user(username: str, password: str) -> User:
+"""
+def create_user(username: str, password: str):
   u = User(
     username=username,
     hashed_password=User.hash_password(password),
@@ -81,4 +87,4 @@ def create_log(log: Log):
   logs_table.insert(log.model_dump())
 
   return log
-
+"""
