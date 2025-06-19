@@ -11,23 +11,17 @@ app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse)
 def root():
-  return HTMLResponse(
-    content=read_html_with_cache("frontend/html/main.html"), status_code=200
-  )
+  return HTMLResponse(content=read_html_with_cache("frontend/html/main.html"), status_code=200)
 
 
 @app.get("/signin", response_class=HTMLResponse)
 def signin():
-  return HTMLResponse(
-    content=read_html_with_cache("frontend/html/signin.html"), status_code=200
-  )
+  return HTMLResponse(content=read_html_with_cache("frontend/html/signin.html"), status_code=200)
 
 
 @app.get("/signup", response_class=HTMLResponse)
 def signup():
-  return HTMLResponse(
-    content=read_html_with_cache("frontend/html/signup.html"), status_code=200
-  )
+  return HTMLResponse(content=read_html_with_cache("frontend/html/signup.html"), status_code=200)
 
 
 class CodeReviewReq(BaseModel):
@@ -46,9 +40,7 @@ async def pycode_review_api(body: CodeReviewReq) -> CodeReviewResp:
   return CodeReviewResp(
     formatter_result=await tools.ruff_format(body.code),
     linter_result=await tools.ruff_lint(body.code),
-    review_ai_result=await tools.review_ai.review_chat_completions_api(
-      body.problem_text, body.code
-    ),
+    review_ai_result=await tools.review_ai.review_chat_completions_api(body.problem_text, body.code),
   )
 
 
@@ -59,10 +51,7 @@ class SignUpReq(BaseModel):
 
 @app.post(
   "/api/signup",
-  responses={
-    status.HTTP_200_OK: {},
-    status.HTTP_409_CONFLICT: {}
-  },
+  responses={status.HTTP_200_OK: {}, status.HTTP_409_CONFLICT: {}},
 )
 def signup_api(body: SignUpReq, resp: Response):
   q = Query()

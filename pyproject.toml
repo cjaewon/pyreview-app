@@ -10,3 +10,12 @@ dependencies = [
     "pydantic>=2.11.5",
     "tinydb>=4.8.2",
 ]
+
+[tool.ruff]
+line-length = 180
+indent-width = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true

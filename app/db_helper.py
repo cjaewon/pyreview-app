@@ -45,9 +45,7 @@ class User(BaseModel):
     salt = os.urandom(16)
     iterations = 600000
 
-    hashed_password = hashlib.pbkdf2_hmac(
-      "sha256", password.encode("utf-8"), salt, iterations
-    )
+    hashed_password = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
 
     b64_salt = base64.b64encode(salt).decode("ascii").strip()
     b64_hash = base64.b64encode(hashed_password).decode("ascii").strip()
@@ -65,9 +63,7 @@ class User(BaseModel):
     salt = base64.b64decode(b64_salt)
     hashed_password_bytes = base64.b64decode(b64_hash)
 
-    hashed_checking_password = hashlib.pbkdf2_hmac(
-      "sha256", password.encode("utf-8"), salt, iterations
-    )
+    hashed_checking_password = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
 
     return hmac.compare_digest(hashed_checking_password, hashed_password_bytes)
 
