@@ -2,6 +2,7 @@ import pathlib
 
 cache = {}
 
+
 def read_html_with_cache(path: str, encoding="utf-8") -> str:
   path_obj = pathlib.Path(path)
   path_abs = path_obj.absolute()

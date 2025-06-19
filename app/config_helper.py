@@ -1,6 +1,7 @@
 import tomllib
 from pydantic import BaseModel
 
+
 class OpenAIConfig(BaseModel):
   api_key: str
   prompt: str = """
@@ -28,8 +29,10 @@ class OpenAIConfig(BaseModel):
 """
   model: str = "o1-mini"
 
+
 class Config(BaseModel):
   openai: OpenAIConfig
+
 
 def load_config() -> Config:
   with open(".env.toml", "rb") as f:
@@ -38,5 +41,6 @@ def load_config() -> Config:
   config = Config(**config_dict)
 
   return config
+
 
 config = load_config()
