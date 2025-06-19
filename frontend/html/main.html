@@ -68,8 +68,6 @@
       document.getElementById("loader").classList.remove("hidden");
       document.getElementById("formater-indicator").classList.add("hidden");
 
-      const sleep = delay => new Promise(resolve => setTimeout(resolve, delay));
-      await sleep(3000);
       let problem_text = document.getElementById("problem").value;
       const code = document.getElementById("code").value;
       
