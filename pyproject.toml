@@ -6,4 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.12",
+    "openai>=1.88.0",
+    "pydantic>=2.11.5",
+    "tinydb>=4.8.2",
 ]
