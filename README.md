@@ -6,6 +6,10 @@
 ## Reports
 See `/doc` directory.
 
+- [proposal.pdf](https://github.com/cjaewon/pyreview-app/blob/main/doc/proposal.pdf)
+- [final_report.pdf](https://github.com/cjaewon/pyreview-app/blob/main/doc/final_report.pdf)
+- [slide.pdf](https://github.com/cjaewon/pyreview-app/blob/main/doc/slide.pdf)
+
 ## How to Install
 
 ```sh
@@ -20,5 +24,5 @@ uv sync
 uv run uvicorn main:app --app-dir app
 ```
 
-## note
+## Note
 The frontend's handling of error codes from the backend is weak. Also, not all status codes are displayed in the OpenAPI documentation.
