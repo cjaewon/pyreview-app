@@ -1,9 +1,9 @@
 """
+warn
+
 This project uses tinydb for DBMS.
 So, you must run web server with only one process or thread.
 If you want to use it in multi-process, thread, you will use sqlite or lock.
-
-todo: lock 구현 필요시
 """
 
 import os
@@ -16,7 +16,7 @@ from tinydb import TinyDB, Query
 
 db = TinyDB("db.json")
 users_table = db.table("users")
-
+logs_table = db.table("logs")
 
 def kst_now():
   now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)
@@ -27,8 +27,8 @@ def kst_now():
 class Log(BaseModel):
   problem_text: str | None
   code: str
+  username: str
   created_at: float = Field(default_factory=kst_now)
-
 
 class User(BaseModel):
   username: str = Field(max_length=16)
@@ -37,8 +37,6 @@ class User(BaseModel):
   created_at: float = Field(default_factory=kst_now)
 
   # github.com/pydantic/pydantic/blob/main/docs/concepts/fields.md#mutable-default-values
-  logs: list[Log] = []
-
   @staticmethod
   def hash_password(password: str) -> str:
     # todo: cpu bound task이기 때문에 다른 스레드에 위임하여 비동기적으로 처리하는 것도 나중에는 생각해봐야함.
