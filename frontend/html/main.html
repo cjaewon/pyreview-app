@@ -14,7 +14,7 @@
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
-        <li><a>로그아웃</a></li>
+        <li><a onclick="signout()">로그아웃</a></li>
       </ul>
     </div>
   </header>
@@ -81,26 +81,35 @@
         code,
       };
 
-      try {
-        const response = await fetch("/api/pycode-review", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
+      const response = await fetch("/api/pycode-review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        document.getElementById("review-ai-result").innerHTML = marked.parse(result["review_ai_result"]);
-        document.getElementById("linter-result").innerHTML = result["linter_result"][0];
-        document.getElementById("code").value = result["formatter_result"][0]
-      } catch (e) {
-        console.error(e)
-      }
+      document.getElementById("review-ai-result").innerHTML = marked.parse(result["review_ai_result"]);
+      document.getElementById("linter-result").innerHTML = result["linter_result"][0];
+      document.getElementById("code").value = result["formatter_result"][0]
 
       document.getElementById("loader").classList.add("hidden");
       document.getElementById("formater-indicator").classList.remove("hidden");
+    }
+  
+    async function signout() {
+      console.log("bye 😎");
+
+      await fetch("/api/signout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      location.href = "/";
     }
   </script>
 </body>

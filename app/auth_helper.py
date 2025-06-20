@@ -51,7 +51,7 @@ AuthRequiredDep = Annotated[str, Depends(auth_required)]
 
 def auth_required_redirect(session_id: Annotated[str | None, Cookie()] = None) -> str:
   if session_id is None:
-    raise HTTPException(status_code=401)
+    raise HTTPException(status_code=302, detail="Not authorized", headers={"Location": "/signin"})
 
   # 세션 존재 안 함
   if session_id not in session_store:

@@ -41,7 +41,7 @@ async def pycode_review_api(body: CodeReviewReq, username: AuthRequiredDep) -> C
   log_q = Query()
 
   logs = logs_table.search((log_q.username == username) & (kst_now() - 86400 <= log_q.created_at))
-  print(logs)
+
   if len(logs) >= 5:
     raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS)
 
@@ -118,7 +118,7 @@ def signin_api(body: SignInReq, resp: Response):
   return
 
 
-@app.post("/api/signout", response_class=RedirectResponse)
+@app.post("/api/signout")
 def signout_api(req: Request, resp: Response):
   session_id = req.cookies.get("session_id")
 
@@ -127,3 +127,5 @@ def signout_api(req: Request, resp: Response):
 
   # resp.set_cookie("session_id", "", max_age=0)
   resp.delete_cookie("session_id")
+
+
