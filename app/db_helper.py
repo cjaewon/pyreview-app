@@ -18,6 +18,7 @@ db = TinyDB("db.json")
 users_table = db.table("users")
 logs_table = db.table("logs")
 
+
 def kst_now():
   now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=9)
 
@@ -29,6 +30,7 @@ class Log(BaseModel):
   code: str
   username: str
   created_at: float = Field(default_factory=kst_now)
+
 
 class User(BaseModel):
   username: str = Field(max_length=16)

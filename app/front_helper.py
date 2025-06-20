@@ -12,6 +12,7 @@ def read_html_with_cache(path: str, encoding="utf-8") -> str:
 
   return cache[path_abs]
 
+
 def read_html(path: str, encoding="utf-8") -> str:
   path_obj = pathlib.Path(path)
 

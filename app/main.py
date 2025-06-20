@@ -9,6 +9,7 @@ from auth_helper import AuthRequiredRedirectDep, AuthRequiredDep, session_store,
 
 app = FastAPI()
 
+
 @app.get("/", response_class=HTMLResponse)
 def root(username: AuthRequiredRedirectDep):
   return HTMLResponse(content=read_html("frontend/html/main.html"), status_code=200)
@@ -52,9 +53,9 @@ async def pycode_review_api(body: CodeReviewReq, username: AuthRequiredDep) -> C
   logs_table.insert(log.model_dump())
 
   return CodeReviewResp(
-    formatter_result = await tools.ruff_format(body.code),
-    linter_result = await tools.ruff_lint(body.code),
-    review_ai_result = await tools.review_ai.review_chat_completions_api(body.problem_text, body.code),
+    formatter_result=await tools.ruff_format(body.code),
+    linter_result=await tools.ruff_lint(body.code),
+    review_ai_result=await tools.review_ai.review_chat_completions_api(body.problem_text, body.code),
   )
 
 
@@ -79,7 +80,7 @@ def signup_api(body: SignUpReq, resp: Response):
 
   users_table.insert(u.model_dump())
 
-   # return u, 하면 u hashed_password 또한 같이 리턴 되므로 만약 이렇게 수정한다면 주의해야함.
+  # return u, 하면 u hashed_password 또한 같이 리턴 되므로 만약 이렇게 수정한다면 주의해야함.
 
 
 class SignInReq(BaseModel):
@@ -94,16 +95,14 @@ def signin_api(body: SignInReq, resp: Response):
 
   if user is None:
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-  
+
   user = User.model_validate(user)
 
   if not User.verify_password(body.password, user.hashed_password):
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
-
   if not user.is_vertified:
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-
 
   while True:
     session_id = create_session_id()
@@ -112,11 +111,12 @@ def signin_api(body: SignInReq, resp: Response):
       break
 
   session_store[session_id] = Session(username=user.username)
-  
+
   # production -> use secure: bool = False
   resp.set_cookie("session_id", session_id, max_age=86400, httponly=True)
 
   return
+
 
 @app.post("/api/signout", response_class=RedirectResponse)
 def signout_api(req: Request, resp: Response):

@@ -18,6 +18,7 @@ from pydantic import BaseModel, Field
 
 session_store: dict[str, Session] = {}
 
+
 class Session(BaseModel):
   username: str
   created_at: float = Field(default_factory=kst_now)
@@ -48,13 +49,14 @@ def auth_required(session_id: Annotated[str | None, Cookie()] = None) -> str:
 
 AuthRequiredDep = Annotated[str, Depends(auth_required)]
 
+
 def auth_required_redirect(session_id: Annotated[str | None, Cookie()] = None) -> str:
   if session_id is None:
     raise HTTPException(status_code=401)
 
   # 세션 존재 안 함
   if session_id not in session_store:
-    raise HTTPException(status_code=302, detail="Not authorized", headers = {"Location": "/signin"} )
+    raise HTTPException(status_code=302, detail="Not authorized", headers={"Location": "/signin"})
 
   session = session_store[session_id]
 
@@ -62,8 +64,9 @@ def auth_required_redirect(session_id: Annotated[str | None, Cookie()] = None) -
   if kst_now() - session.created_at > 86400:
     del session
 
-    raise HTTPException(status_code=302, detail="Not authorized", headers = {"Location": "/signin"} )
+    raise HTTPException(status_code=302, detail="Not authorized", headers={"Location": "/signin"})
 
   return session.username
+
 
 AuthRequiredRedirectDep = Annotated[str, Depends(auth_required_redirect)]
