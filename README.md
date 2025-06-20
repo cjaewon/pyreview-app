@@ -3,6 +3,9 @@
 2025 Spring  
 [Prof. Woo](https://pl.pusan.ac.kr/~woogyun/)
 
+## Reports
+See `/doc` directory.
+
 ## How to Install
 
 ```sh
@@ -17,8 +20,5 @@ uv sync
 uv run uvicorn main:app --app-dir app
 ```
 
-## not implemented
-- frontend api error status message
-  - day limit
-  - ...
-- openapi error status code 
+## note
+The frontend's handling of error codes from the backend is weak. Also, not all status codes are displayed in the OpenAPI documentation.
