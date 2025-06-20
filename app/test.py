@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import json  # json 모듈을 임포트합니다.
 
 app = FastAPI()
 

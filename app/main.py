@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request, Response, status
 from fastapi.responses import HTMLResponse, RedirectResponse
-from pydantic import BaseModel, Field, TypeAdapter
+from pydantic import BaseModel, Field
 from tinydb import Query
 import tools
 from db_helper import Log, kst_now, users_table, logs_table, User

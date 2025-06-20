@@ -7,13 +7,12 @@ If you want to use it in multi-process, thread, you will use redis or other data
 """
 
 from __future__ import annotations
-import datetime
 import secrets
 from typing import Annotated
-from db_helper import User, kst_now, users_table
+from db_helper import kst_now
 
 
-from fastapi import Cookie, Depends, HTTPException, Query
+from fastapi import Cookie, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 session_store: dict[str, Session] = {}

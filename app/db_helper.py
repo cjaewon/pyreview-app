@@ -12,7 +12,7 @@ import base64
 import hmac
 import datetime
 from pydantic import BaseModel, Field
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 db = TinyDB("db.json")
 users_table = db.table("users")
