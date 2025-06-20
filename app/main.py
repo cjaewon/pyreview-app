@@ -26,8 +26,8 @@ def signup():
 
 
 class CodeReviewReq(BaseModel):
-  problem_text: str | None = Field(max_length=700)
-  code: str = Field(max_length=1000)
+  problem_text: str | None = Field(max_length=1500)
+  code: str = Field(max_length=2000)
 
 
 class CodeReviewResp(BaseModel):
